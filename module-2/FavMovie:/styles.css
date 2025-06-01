@@ -1,0 +1,43 @@
+/* Here I have the general page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8ff;
+    color: #333;
+    margin: 20px;
+    padding: 0;
+}
+
+/* This is the heading style */
+h1 {
+    color: #4b0082;
+    text-align: center;
+}
+
+/* Then the paragraph style */
+p {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* The table styling */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #9370db;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
