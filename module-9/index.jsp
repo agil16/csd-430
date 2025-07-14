@@ -12,6 +12,8 @@
     <li><a href="movie_select.jsp">Search Movie</a></li>
     <li><a href="insert_movie.jsp">Insert New Movie</a></li>
     <li><a href="movie_update_select.jsp">Update Movie</a></li>
+    <li><a href="movie_edit_select.jsp">Edit Movie Record</a></li>
+    <li><a href="delete_movie.jsp">Delete Movie Record</a></li>
 </ul>
 
 </body>

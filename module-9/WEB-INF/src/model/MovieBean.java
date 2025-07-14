@@ -4,7 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**MovieBean class for interacting with arely_movies_data table.Provides methods to get all movie IDs and load a movie by ID.*/
+/**MovieBean class for interacting with arely_movies_data table.
+ * Provides methods to get all movie IDs and load a movie by ID.*/
 public class MovieBean {
     private final String jdbcURL = "jdbc:mysql://localhost:3306/CSD430";
     private final String jdbcUsername = "student1";
@@ -15,6 +16,7 @@ public class MovieBean {
     private String genre;
     private String director;
     private int year;
+    private double rating; // ✅ new field
 
     //The getters and setters
     public int getMovie_id() { return movie_id; }
@@ -31,6 +33,9 @@ public class MovieBean {
 
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
+
+    public double getRating() { return rating; } // ✅ getter
+    public void setRating(double rating) { this.rating = rating; } // ✅ setter
 
     //The method to get all movie IDs
     public List<Integer> getAllMovieIds() {
@@ -52,7 +57,7 @@ public class MovieBean {
         return ids;
     }
 
-    //Here is the, load a movie by id
+    //Here is the, load a movie by ID
     public void loadById(int id) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -65,7 +70,8 @@ public class MovieBean {
                 this.title = rs.getString("title");
                 this.genre = rs.getString("genre");
                 this.director = rs.getString("director");
-                this.year = rs.getInt("year");
+                this.year = rs.getInt("release_year");
+                this.rating = rs.getDouble("rating"); // ✅ set rating
             }
             rs.close();
             ps.close();
@@ -73,5 +79,52 @@ public class MovieBean {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //Update a movie record
+    public boolean updateMovie() {
+        boolean success = false;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+            String sql = "UPDATE arely_movies_data SET title=?, genre=?, director=?, release_year=?, rating=? WHERE movie_id=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, genre);
+            ps.setString(3, director);
+            ps.setInt(4, year);
+            ps.setDouble(5, rating);
+            ps.setInt(6, movie_id);
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                success = true;
+            }
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
+
+    //DELETE a movie by ID
+    public boolean deleteById(int id) {
+        boolean success = false;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+            String sql = "DELETE FROM arely_movies_data WHERE movie_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                success = true;
+            }
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 }
